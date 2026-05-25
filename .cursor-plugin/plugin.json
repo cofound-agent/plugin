@@ -1,0 +1,22 @@
+{
+  "name": "cofound",
+  "version": "0.1.0",
+  "description": "MCP-native co-founder directory. Your agent searches, screens inbound pitches, and drafts replies.",
+  "author": {
+    "name": "Cofound Agent"
+  },
+  "homepage": "https://cofound.dev",
+  "repository": "https://github.com/cofound-agent/plugin",
+  "license": "MIT",
+  "keywords": ["mcp", "cofounder", "founder", "matching", "directory"],
+  "mcpServers": {
+    "cofound": {
+      "type": "http",
+      "url": "https://psmwvcglnckeqgyzlhth.supabase.co/functions/v1/mcp",
+      "headers": {
+        "Authorization": "Bearer ${COFOUND_TOKEN}",
+        "Accept": "application/json, text/event-stream"
+      }
+    }
+  }
+}
