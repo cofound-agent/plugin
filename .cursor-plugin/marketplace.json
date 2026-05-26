@@ -9,7 +9,7 @@
       "source": ".",
       "description": "MCP-native co-founder directory. Profile, search, messaging, and block tools.",
       "version": "0.1.0",
-      "homepage": "https://cofound.dev",
+      "homepage": "https://cofoundagent.ai",
       "license": "MIT",
       "keywords": ["mcp", "cofounder", "founder", "matching", "directory"]
     }

@@ -1,7 +1,7 @@
 # Per-Client Setup
 
 Cofound's MCP endpoint is HTTP Streamable:
-`https://psmwvcglnckeqgyzlhth.supabase.co/functions/v1/mcp`
+`https://mcp.cofoundagent.ai/mcp`
 
 Every client needs the same two headers on every request:
 
@@ -32,7 +32,7 @@ project or `~/.claude.json` for user-wide:
 {
   "mcpServers": {
     "cofound": {
-      "url": "https://psmwvcglnckeqgyzlhth.supabase.co/functions/v1/mcp",
+      "url": "https://mcp.cofoundagent.ai/mcp",
       "headers": {
         "Authorization": "Bearer <token>",
         "Accept": "application/json, text/event-stream"
@@ -53,7 +53,7 @@ Install from the Cursor Marketplace (Cursor 2.5+), or add manually:
 {
   "mcpServers": {
     "cofound": {
-      "url": "https://psmwvcglnckeqgyzlhth.supabase.co/functions/v1/mcp",
+      "url": "https://mcp.cofoundagent.ai/mcp",
       "headers": {
         "Authorization": "Bearer <token>",
         "Accept": "application/json, text/event-stream"
@@ -74,7 +74,7 @@ Add to `claude_desktop_config.json`:
 {
   "mcpServers": {
     "cofound": {
-      "url": "https://psmwvcglnckeqgyzlhth.supabase.co/functions/v1/mcp",
+      "url": "https://mcp.cofoundagent.ai/mcp",
       "headers": {
         "Authorization": "Bearer <token>",
         "Accept": "application/json, text/event-stream"
@@ -90,7 +90,7 @@ Add via the CLI (recommended):
 
 ```bash
 codex mcp add cofound \
-  --url https://psmwvcglnckeqgyzlhth.supabase.co/functions/v1/mcp \
+  --url https://mcp.cofoundagent.ai/mcp \
   --header "Authorization=Bearer <token>" \
   --header "Accept=application/json, text/event-stream"
 ```
@@ -99,7 +99,7 @@ Or hand-edit `~/.codex/config.toml`:
 
 ```toml
 [mcp_servers.cofound]
-url = "https://psmwvcglnckeqgyzlhth.supabase.co/functions/v1/mcp"
+url = "https://mcp.cofoundagent.ai/mcp"
 
 [mcp_servers.cofound.http_headers]
 Authorization = "Bearer <token>"
@@ -115,7 +115,7 @@ Requires ChatGPT Plus, Pro, Business, Enterprise, or Edu.
 Settings → Connectors → Create:
 
 - Name: `cofound`
-- MCP server URL: `https://psmwvcglnckeqgyzlhth.supabase.co/functions/v1/mcp`
+- MCP server URL: `https://mcp.cofoundagent.ai/mcp`
 - Authentication: `Bearer <token>`
 - Accept header: `application/json, text/event-stream`
 
@@ -128,7 +128,7 @@ Settings → Connectors → Create:
   "mcp": {
     "servers": {
       "cofound": {
-        "url": "https://psmwvcglnckeqgyzlhth.supabase.co/functions/v1/mcp",
+        "url": "https://mcp.cofoundagent.ai/mcp",
         "headers": {
           "Authorization": "Bearer <token>",
           "Accept": "application/json, text/event-stream"
@@ -146,7 +146,7 @@ Settings → Connectors → Create:
 ```yaml
 mcp_servers:
   cofound:
-    url: "https://psmwvcglnckeqgyzlhth.supabase.co/functions/v1/mcp"
+    url: "https://mcp.cofoundagent.ai/mcp"
     headers:
       Authorization: "Bearer <token>"
       Accept: "application/json, text/event-stream"
@@ -164,7 +164,7 @@ After installing, ask your agent to call `get_profile` with `{ "view":
 - **`406 Not Acceptable` during initialize**: client did not send the `Accept`
   header. Add `Accept: application/json, text/event-stream`.
 - **`401 Unauthorized`**: token is missing, malformed, or revoked. Regenerate
-  at [cofound.dev/tokens](https://cofound.dev/tokens).
+  at [cofoundagent.ai/tokens](https://cofoundagent.ai/tokens).
 - **`forbidden` from `search_profiles`**: your own profile isn't ready. Check
   `details.missing_required_fields` and complete those via `update_my_profile`
   and `submit_raw_profile`.

@@ -3,7 +3,7 @@
   "name": "cofound-agent",
   "owner": {
     "name": "Cofound Agent",
-    "url": "https://cofound.dev"
+    "url": "https://cofoundagent.ai"
   },
   "plugins": [
     {
@@ -11,7 +11,7 @@
       "source": ".",
       "description": "MCP-native co-founder directory. Profile, search, messaging, and block tools.",
       "version": "0.1.0",
-      "homepage": "https://cofound.dev",
+      "homepage": "https://cofoundagent.ai",
       "license": "MIT",
       "keywords": ["mcp", "cofounder", "founder", "matching", "directory"]
     }

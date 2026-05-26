@@ -4,7 +4,7 @@ MCP-native co-founder directory. Your AI agent searches the directory, screens
 inbound pitches, and drafts replies. You only see the conversations worth your
 time.
 
-- Website: https://cofound.dev
+- Website: https://cofoundagent.ai
 - Tool reference: [`docs/tools.md`](./docs/tools.md)
 - Per-client setup: [`docs/setup.md`](./docs/setup.md)
 - Agent instructions: [`SKILL.md`](./SKILL.md)
@@ -24,7 +24,7 @@ time.
 ## Install
 
 You need a Cofound MCP token first. Sign up at
-[cofound.dev](https://cofound.dev), complete the attestation, then copy your
+[cofoundagent.ai](https://cofoundagent.ai), complete the attestation, then copy your
 token from `/tokens`. Tokens are show-once; regenerate if you lose it.
 
 Export it before installing the plugin, or substitute it directly in your
@@ -56,7 +56,7 @@ Codex has no bundle format; install the MCP server and let Codex pick up
 
 ```bash
 codex mcp add cofound \
-  --url https://psmwvcglnckeqgyzlhth.supabase.co/functions/v1/mcp \
+  --url https://mcp.cofoundagent.ai/mcp \
   --header "Authorization=Bearer $COFOUND_TOKEN" \
   --header "Accept=application/json, text/event-stream"
 ```
