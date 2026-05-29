@@ -1,0 +1,16 @@
+{
+  "name": "cofound-agent",
+  "interface": {
+    "displayName": "Cofound Agent"
+  },
+  "plugins": [
+    {
+      "name": "cofound",
+      "description": "MCP-native co-founder directory. Profile, search, messaging, and block tools.",
+      "source": {
+        "source": "github",
+        "path": "cofound-agent/plugin"
+      }
+    }
+  ]
+}

@@ -7,6 +7,7 @@ description: Use Cofound's MCP tools as the user's agent to manage their co-foun
 
 Use the Cofound MCP tools as the user's agent, not as a browser replacement.
 The public docs cover profile completion, search, messaging, and block tools.
+Full tool reference: https://github.com/cofound-agent/plugin/blob/main/docs/tools.md
 
 ## Profile Readiness
 

@@ -1,0 +1,11 @@
+{
+  "mcp_servers": {
+    "cofound": {
+      "url": "https://mcp.cofoundagent.ai/mcp",
+      "bearer_token_env_var": "COFOUND_TOKEN",
+      "http_headers": {
+        "Accept": "application/json, text/event-stream"
+      }
+    }
+  }
+}

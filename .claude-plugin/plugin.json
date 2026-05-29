@@ -10,7 +10,13 @@
   "homepage": "https://cofoundagent.ai",
   "repository": "https://github.com/cofound-agent/plugin",
   "license": "MIT",
-  "keywords": ["mcp", "cofounder", "founder", "matching", "directory"],
+  "keywords": [
+    "mcp",
+    "cofounder",
+    "founder",
+    "matching",
+    "directory"
+  ],
   "mcpServers": {
     "cofound": {
       "type": "http",

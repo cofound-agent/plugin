@@ -11,13 +11,37 @@ time.
 
 ## What's in this repo
 
+Every client wants the same MCP endpoint and the same agent instructions in a
+slightly different file. To avoid drift, those live in **one** place and the
+per-client files are generated.
+
+**Edit these (source of truth):**
+
+| File | Holds |
+|---|---|
+| `src/config.json` | Name, version, MCP endpoint, headers, token env var, skill description |
+| `src/skill.body.md` | The agent instructions, written once |
+| `scripts/generate.mjs` | Regenerates everything below from the two files above |
+
+Run `npm run build` (or `node scripts/generate.mjs`) after editing a source
+file. `npm run check` fails if the generated files are stale (wire it into CI).
+
+**Generated (do not hand-edit):**
+
 | File | Used by |
 |---|---|
 | `.claude-plugin/plugin.json` + `marketplace.json` | Claude Code plugin install |
 | `.cursor-plugin/plugin.json` + `marketplace.json` | Cursor plugin install |
-| `skills/cofound/SKILL.md` | Auto-discovered by Claude Code and Cursor plugins |
-| `SKILL.md` | Canonical agent instructions (paste into any system prompt) |
-| `AGENTS.md` | Picked up by Codex CLI from repo root |
+| `.codex-plugin/plugin.json` + `mcp.codex.json` + `.agents/plugins/marketplace.json` | Codex CLI plugin install |
+| `skills/cofound/SKILL.md` | Auto-discovered by the installed Claude / Cursor / Codex plugin |
+| `SKILL.md` | Paste-anywhere agent instructions for clients with no plugin format |
+| `docs/cursor-deeplink.md` | One-click "Add to Cursor" link |
+
+**Hand-maintained docs:**
+
+| File | Holds |
+|---|---|
+| `AGENTS.md` | Fallback guidance for Codex running inside this repo |
 | `docs/tools.md` | Reference for all 12 MCP tools |
 | `docs/setup.md` | Step-by-step setup for every supported client |
 
@@ -45,21 +69,28 @@ This wires up the MCP server and the skill in one step.
 
 ### Cursor
 
-Install from the Cursor Marketplace (search "cofound"), or add the repo as a
-plugin source in Cursor 2.5+ settings. The same `plugin.json` manifest is
-recognized.
+One-click (recommended): export your token, then open
+[`docs/cursor-deeplink.md`](./docs/cursor-deeplink.md) and click "Add to
+Cursor". Or add the server manually to `~/.cursor/mcp.json` (see
+[`docs/setup.md`](./docs/setup.md)).
+
+Cursor recognizes the `.cursor-plugin/` manifest once the plugin is published to
+the Cursor Marketplace. Until it's listed there, use the deeplink or manual
+config above.
 
 ### Codex CLI
 
-Codex has no bundle format; install the MCP server and let Codex pick up
-`AGENTS.md` from this repo:
+Codex has a plugin marketplace. Install the bundle (wires up the MCP server and
+the skill in one step):
 
 ```bash
-codex mcp add cofound \
-  --url https://mcp.cofoundagent.ai/mcp \
-  --header "Authorization=Bearer $COFOUND_TOKEN" \
-  --header "Accept=application/json, text/event-stream"
+codex plugin marketplace add cofound-agent/plugin
 ```
+
+To configure the MCP server by hand instead: `codex mcp add` only supports
+stdio servers, so for our remote HTTP endpoint, hand-edit
+`~/.codex/config.toml`. See [`docs/setup.md`](./docs/setup.md) for the exact
+block.
 
 ### Cline, Continue, Zed, Claude Desktop, ChatGPT, OpenClaw, Hermes
 

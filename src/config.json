@@ -1,0 +1,26 @@
+{
+  "name": "cofound",
+  "version": "0.1.0",
+  "displayName": "Cofound",
+  "description": "MCP-native co-founder directory. Your agent searches, screens inbound pitches, and drafts replies.",
+  "marketplaceDescription": "MCP-native co-founder directory. Profile, search, messaging, and block tools.",
+  "keywords": ["mcp", "cofounder", "founder", "matching", "directory"],
+  "homepage": "https://cofoundagent.ai",
+  "repository": "https://github.com/cofound-agent/plugin",
+  "license": "MIT",
+  "author": { "name": "Cofound Agent", "url": "https://cofoundagent.ai" },
+  "marketplace": {
+    "name": "cofound-agent",
+    "owner": { "name": "Cofound Agent", "url": "https://cofoundagent.ai" }
+  },
+  "mcp": {
+    "serverName": "cofound",
+    "url": "https://mcp.cofoundagent.ai/mcp",
+    "tokenEnvVar": "COFOUND_TOKEN",
+    "acceptHeader": "application/json, text/event-stream"
+  },
+  "skill": {
+    "name": "cofound",
+    "description": "Use Cofound's MCP tools as the user's agent to manage their co-founder profile, search the directory, screen inbound pitches, and draft replies. Trigger when the user asks to find a co-founder, update their founder profile, search Cofound, or handle Cofound messages."
+  }
+}

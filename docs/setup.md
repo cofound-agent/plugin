@@ -44,7 +44,12 @@ project or `~/.claude.json` for user-wide:
 
 ## Cursor
 
-Install from the Cursor Marketplace (Cursor 2.5+), or add manually:
+One-click: export your token, then open
+[`cursor-deeplink.md`](./cursor-deeplink.md) and click "Add to Cursor". Once the
+plugin is published to the Cursor Marketplace (Cursor 2.5+), you'll also be able
+to install it from there.
+
+Or add the server manually:
 
 - Global config: `~/.cursor/mcp.json`
 - Project config: `.cursor/mcp.json`
@@ -55,13 +60,17 @@ Install from the Cursor Marketplace (Cursor 2.5+), or add manually:
     "cofound": {
       "url": "https://mcp.cofoundagent.ai/mcp",
       "headers": {
-        "Authorization": "Bearer <token>",
+        "Authorization": "Bearer ${env:COFOUND_TOKEN}",
         "Accept": "application/json, text/event-stream"
       }
     }
   }
 }
 ```
+
+Cursor interpolates `${env:VAR}` in `mcp.json`, so exporting `COFOUND_TOKEN`
+keeps the raw token out of the file. Paste a literal `Bearer <token>` instead if
+you prefer.
 
 ## Claude Desktop
 
@@ -86,27 +95,34 @@ Add to `claude_desktop_config.json`:
 
 ## OpenAI Codex CLI
 
-Add via the CLI (recommended):
+Recommended: install the Codex plugin, which bundles the MCP server and the
+skill:
 
 ```bash
-codex mcp add cofound \
-  --url https://mcp.cofoundagent.ai/mcp \
-  --header "Authorization=Bearer <token>" \
-  --header "Accept=application/json, text/event-stream"
+codex plugin marketplace add cofound-agent/plugin
 ```
 
-Or hand-edit `~/.codex/config.toml`:
+Manual MCP setup: `codex mcp add` only supports stdio servers (`codex mcp add
+<name> -- <command>`), so for our remote HTTP endpoint, hand-edit
+`~/.codex/config.toml`:
 
 ```toml
 [mcp_servers.cofound]
 url = "https://mcp.cofoundagent.ai/mcp"
+bearer_token_env_var = "COFOUND_TOKEN"
 
 [mcp_servers.cofound.http_headers]
-Authorization = "Bearer <token>"
 Accept = "application/json, text/event-stream"
 ```
 
-Codex also reads `AGENTS.md` from the repo root, which this repo provides.
+`bearer_token_env_var` reads the token from your environment and sends it as the
+`Authorization: Bearer` header, so the secret stays out of the file. To hardcode
+it instead, drop that line and add `Authorization = "Bearer <token>"` under
+`[mcp_servers.cofound.http_headers]`.
+
+Codex also merges `AGENTS.md` from your working directory up to the Git root, so
+running Codex inside this repo picks up the same guidance. The plugin delivers
+it everywhere.
 
 ## ChatGPT (Custom Connectors)
 

@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "MCP-native co-founder directory. Your agent searches, screens inbound pitches, and drafts replies.",
   "author": {
-    "name": "Cofound Agent"
+    "name": "Cofound Agent",
+    "url": "https://cofoundagent.ai"
   },
   "homepage": "https://cofoundagent.ai",
   "repository": "https://github.com/cofound-agent/plugin",
@@ -16,13 +17,5 @@
     "directory"
   ],
   "skills": "./skills/",
-  "mcpServers": {
-    "cofound": {
-      "url": "https://mcp.cofoundagent.ai/mcp",
-      "headers": {
-        "Authorization": "Bearer ${env:COFOUND_TOKEN}",
-        "Accept": "application/json, text/event-stream"
-      }
-    }
-  }
+  "mcpServers": "./mcp.codex.json"
 }

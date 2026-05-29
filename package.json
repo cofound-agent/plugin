@@ -1,0 +1,10 @@
+{
+  "name": "cofound-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Build tooling for the Cofound cross-client plugin bundles.",
+  "scripts": {
+    "build": "node scripts/generate.mjs",
+    "check": "node scripts/generate.mjs --check"
+  }
+}
