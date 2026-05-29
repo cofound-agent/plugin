@@ -6,11 +6,15 @@
   "plugins": [
     {
       "name": "cofound",
-      "description": "MCP-native co-founder directory. Profile, search, messaging, and block tools.",
       "source": {
-        "source": "github",
-        "path": "cofound-agent/plugin"
-      }
+        "source": "local",
+        "path": "."
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
     }
   ]
 }

@@ -4,6 +4,8 @@
   "displayName": "Cofound",
   "description": "MCP-native co-founder directory. Your agent searches, screens inbound pitches, and drafts replies.",
   "marketplaceDescription": "MCP-native co-founder directory. Profile, search, messaging, and block tools.",
+  "shortDescription": "Find and vet co-founders from your agent",
+  "category": "Productivity",
   "keywords": ["mcp", "cofounder", "founder", "matching", "directory"],
   "homepage": "https://cofoundagent.ai",
   "repository": "https://github.com/cofound-agent/plugin",

@@ -20,7 +20,6 @@ const config = JSON.parse(read("src/config.json"));
 const skillBody = read("src/skill.body.md");
 
 const json = (obj) => JSON.stringify(obj, null, 2) + "\n";
-const repoPath = config.repository.replace(/^https?:\/\/github\.com\//, "");
 const bearer = (wrap) => `Bearer ${wrap(config.mcp.tokenEnvVar)}`;
 
 // --- skill files -----------------------------------------------------------
@@ -144,6 +143,15 @@ const codexPlugin = {
   keywords: config.keywords,
   skills: "./skills/",
   mcpServers: "./mcp.codex.json",
+  interface: {
+    displayName: config.displayName,
+    shortDescription: config.shortDescription,
+    longDescription: config.description,
+    developerName: config.author.name,
+    category: config.category,
+    capabilities: ["Interactive", "Write"],
+    websiteURL: config.homepage,
+  },
 };
 
 // Cursor one-click install deeplink. config = base64(JSON.stringify(server)).
@@ -174,16 +182,20 @@ ${cursorDeeplink}
 \`\`\`
 `;
 
-// Codex marketplace catalog. The verbatim schema is not published in the docs;
-// this is a best-effort guess (verify with `codex plugin marketplace add`).
+// Codex marketplace catalog. Schema mirrors openai/plugins'
+// .agents/plugins/marketplace.json. The plugin lives at the repo root (the same
+// root Claude and Cursor use), so the local source path is ".".
 const codexMarketplace = {
   name: config.marketplace.name,
   interface: { displayName: config.marketplace.owner.name },
   plugins: [
     {
       name: config.name,
-      description: config.marketplaceDescription,
-      source: { source: "github", path: repoPath },
+      source: { source: "local", path: "." },
+      // authentication: ON_INSTALL | ON_USE. The bearer token rides every
+      // request, so auth happens on use, not via an install-time flow.
+      policy: { installation: "AVAILABLE", authentication: "ON_USE" },
+      category: config.category,
     },
   ],
 };

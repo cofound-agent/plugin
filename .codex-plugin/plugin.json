@@ -17,5 +17,17 @@
     "directory"
   ],
   "skills": "./skills/",
-  "mcpServers": "./mcp.codex.json"
+  "mcpServers": "./mcp.codex.json",
+  "interface": {
+    "displayName": "Cofound",
+    "shortDescription": "Find and vet co-founders from your agent",
+    "longDescription": "MCP-native co-founder directory. Your agent searches, screens inbound pitches, and drafts replies.",
+    "developerName": "Cofound Agent",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://cofoundagent.ai"
+  }
 }

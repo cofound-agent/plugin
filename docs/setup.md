@@ -102,9 +102,10 @@ skill:
 codex plugin marketplace add cofound-agent/plugin
 ```
 
-Manual MCP setup: `codex mcp add` only supports stdio servers (`codex mcp add
-<name> -- <command>`), so for our remote HTTP endpoint, hand-edit
-`~/.codex/config.toml`:
+Manual MCP setup: `codex mcp add cofound --url https://mcp.cofoundagent.ai/mcp
+--bearer-token-env-var COFOUND_TOKEN` registers the server, but `codex mcp add`
+has no `--header` flag and our endpoint requires `Accept: application/json,
+text/event-stream`. So configure it directly in `~/.codex/config.toml`:
 
 ```toml
 [mcp_servers.cofound]

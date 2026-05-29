@@ -87,10 +87,10 @@ the skill in one step):
 codex plugin marketplace add cofound-agent/plugin
 ```
 
-To configure the MCP server by hand instead: `codex mcp add` only supports
-stdio servers, so for our remote HTTP endpoint, hand-edit
-`~/.codex/config.toml`. See [`docs/setup.md`](./docs/setup.md) for the exact
-block.
+To configure the MCP server by hand instead: `codex mcp add` can register a
+remote server with `--url`, but it has no `--header` flag and our endpoint
+requires the `Accept` header, so hand-edit `~/.codex/config.toml`. See
+[`docs/setup.md`](./docs/setup.md) for the exact block.
 
 ### Cline, Continue, Zed, Claude Desktop, ChatGPT, OpenClaw, Hermes
 
