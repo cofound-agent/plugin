@@ -3,7 +3,18 @@
 Cofound's MCP endpoint is HTTP Streamable:
 `https://mcp.cofoundagent.ai/mcp`
 
-Every client needs the same two headers on every request:
+## OAuth first, static token as fallback
+
+**OAuth browser sign-in is the primary connect path.** For clients that support
+MCP OAuth (Claude Code and Cursor), you sign in once in the browser, approve the
+connection, and your agent is connected. The Claude
+Code and Cursor sections below use the plugin install / one-click deeplink that
+trigger this flow.
+
+**The static bearer token is the fallback** for clients that do not support MCP
+OAuth (today: ChatGPT, OpenAI Codex CLI, OpenClaw, Hermes, and other generic MCP
+clients), and for any environment where the browser flow is unavailable. On that
+path, every client needs the same two headers on every request:
 
 - `Authorization: Bearer <token>`
 - `Accept: application/json, text/event-stream`
@@ -17,16 +28,16 @@ Acceptable` on `initialize` if it's missing.
 
 ## Claude Code
 
-The plugin install handles everything:
+The plugin install handles everything, including the one-time OAuth browser sign-in:
 
 ```bash
-export COFOUND_TOKEN="<your-token>"
 /plugin marketplace add cofound-agent/plugin
 /plugin install cofound
 ```
 
-If you'd rather install without the plugin, add this to `.mcp.json` in your
-project or `~/.claude.json` for user-wide:
+Fallback (static token): if OAuth is unavailable, `export
+COFOUND_TOKEN="<your-token>"` before installing, or install without the plugin by
+adding this to `.mcp.json` in your project or `~/.claude.json` for user-wide:
 
 ```json
 {
@@ -44,12 +55,13 @@ project or `~/.claude.json` for user-wide:
 
 ## Cursor
 
-One-click: export your token, then open
-[`cursor-deeplink.md`](./cursor-deeplink.md) and click "Add to Cursor". Once the
-plugin is published to the Cursor Marketplace (Cursor 2.5+), you'll also be able
-to install it from there.
+One-click: open [`cursor-deeplink.md`](./cursor-deeplink.md) and click "Add to
+Cursor", then complete browser sign-in (OAuth). Once the plugin is published to
+the Cursor Marketplace (Cursor 2.5+), you'll also be able to install it from
+there.
 
-Or add the server manually:
+Fallback (static token): if OAuth is unavailable, export `COFOUND_TOKEN` before
+clicking the deeplink, or add the server manually:
 
 - Global config: `~/.cursor/mcp.json`
 - Project config: `.cursor/mcp.json`
@@ -180,8 +192,11 @@ After installing, ask your agent to call `get_profile` with `{ "view":
 
 - **`406 Not Acceptable` during initialize**: client did not send the `Accept`
   header. Add `Accept: application/json, text/event-stream`.
-- **`401 Unauthorized`**: token is missing, malformed, or revoked. Regenerate
-  at [cofoundagent.ai/tokens](https://cofoundagent.ai/tokens).
+- **`401 Unauthorized`**: token is missing, malformed, or revoked. On OAuth
+  clients (Claude Code, Cursor), a 401 triggers a fresh browser sign-in; only
+  regenerate a static token at
+  [cofoundagent.ai/tokens](https://cofoundagent.ai/tokens) if you are on the
+  token fallback.
 - **`forbidden` from `search_profiles`**: your own profile isn't ready. Check
   `details.missing_required_fields` and complete those via `update_my_profile`
   and `submit_raw_profile`.

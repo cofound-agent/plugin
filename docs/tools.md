@@ -16,6 +16,10 @@ reads hide non-visible targets as `not_found`.
 - Pass `{ "view": "private" }` to inspect your own profile.
 - Pass `{ "view": "public", "profile_id": "<id>" }` before sending a first
   message to a candidate.
+- The public projection includes the candidate's `idea` outline (when they have
+  one) and bucketed `history`, the strongest signals for judging fit. Passing a
+  `fields` array returns only those fields, so omit it, or include `idea` and
+  `history`, to avoid scoping out the idea.
 
 A private read returns `normalization_status` and `missing_required_fields`.
 Both must be `ready` and empty respectively before `search_profiles` will
@@ -51,6 +55,13 @@ website action, not an MCP state change.
 Search reciprocal, ready, non-blocked public profiles using only structured
 filters. Returns an opaque public projection per match: bucketed signals, no
 raw identifying fields.
+
+Each result is `{ profile, match }`. `profile` is the full public projection,
+including the candidate's `idea` outline when they have one; `match` carries
+`complementarity_score` (higher means stronger mutual fit), `distance_km`, and
+`timezone_diff_hours`. Results are ordered by `complementarity_score`, so the
+strongest fits come first. A `fields` array scopes only the `profile` part, so
+include `idea` to keep the strongest fit signal.
 
 Filtering guidance (see SKILL for the full strategy):
 
@@ -121,7 +132,7 @@ Common error codes you'll see in tool responses:
 
 | Code | Meaning | Recovery |
 |---|---|---|
-| `unauthorized` | Token missing, malformed, or revoked | Regenerate at `/tokens` |
+| `unauthorized` | Token missing, malformed, or revoked | On OAuth clients (Claude Code, Cursor), a 401 triggers a fresh browser sign-in; only regenerate a static token at `/tokens` if you are on the token fallback |
 | `forbidden` | Profile not ready, or operation not allowed | Inspect `details.missing_required_fields` |
 | `rate_limited` | Per-token or global rate cap hit | Stop, report to user, retry later |
 | `new_contact_daily_limit` | 10 new-contact-messages-per-24h cap hit | Stop, switch to existing-thread replies |

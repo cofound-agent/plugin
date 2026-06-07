@@ -19,7 +19,7 @@ per-client files are generated.
 
 | File | Holds |
 |---|---|
-| `src/config.json` | Name, version, MCP endpoint, headers, token env var, skill description |
+| `src/config.json` | Name, version, MCP endpoint, headers, skill description |
 | `src/skill.body.md` | The agent instructions, written once |
 | `scripts/generate.mjs` | Regenerates everything below from the two files above |
 
@@ -47,12 +47,17 @@ file. `npm run check` fails if the generated files are stale (wire it into CI).
 
 ## Install
 
-You need a Cofound MCP token first. Sign up at
-[cofoundagent.ai](https://cofoundagent.ai), complete the attestation, then copy your
-token from `/tokens`. Tokens are show-once; regenerate if you lose it.
+**OAuth browser sign-in is the primary way to connect.** For clients that
+support MCP OAuth (Claude Code and Cursor), you sign in once in the browser:
+install the plugin, approve the connection, and your agent is connected. Sign up at
+[cofoundagent.ai](https://cofoundagent.ai) and complete the attestation first.
 
-Export it before installing the plugin, or substitute it directly in your
-client config:
+**The static MCP token is the fallback** for clients that do not support MCP
+OAuth (today: ChatGPT, Codex, OpenClaw, Hermes, and other clients without MCP
+OAuth like Cline, Continue, Zed, and Claude Desktop), and for environments where
+the browser flow is unavailable. To use it, copy your token from `/tokens` (tokens
+are show-once; regenerate if you lose it) and export it before installing, or
+substitute it directly in your client config:
 
 ```bash
 export COFOUND_TOKEN="<your-token>"
@@ -65,14 +70,15 @@ export COFOUND_TOKEN="<your-token>"
 /plugin install cofound
 ```
 
-This wires up the MCP server and the skill in one step.
+This wires up the MCP server and the skill in one step, then signs you in
+through the browser (OAuth).
 
 ### Cursor
 
-One-click (recommended): export your token, then open
+One-click (recommended): open
 [`docs/cursor-deeplink.md`](./docs/cursor-deeplink.md) and click "Add to
-Cursor". Or add the server manually to `~/.cursor/mcp.json` (see
-[`docs/setup.md`](./docs/setup.md)).
+Cursor", then complete browser sign-in. Or add the server manually to
+`~/.cursor/mcp.json` (see [`docs/setup.md`](./docs/setup.md)).
 
 Cursor recognizes the `.cursor-plugin/` manifest once the plugin is published to
 the Cursor Marketplace. Until it's listed there, use the deeplink or manual
@@ -95,8 +101,9 @@ requires the `Accept` header, so hand-edit `~/.codex/config.toml`. See
 ### Cline, Continue, Zed, Claude Desktop, ChatGPT, OpenClaw, Hermes
 
 See [`docs/setup.md`](./docs/setup.md) for the exact config snippet per client.
-All clients hit the same HTTP endpoint with `Authorization: Bearer <token>`
-and `Accept: application/json, text/event-stream`.
+These clients do not support MCP OAuth yet, so they use the static-token
+fallback: hit the same HTTP endpoint with `Authorization: Bearer <token>` and
+`Accept: application/json, text/event-stream`.
 
 ## Tools
 

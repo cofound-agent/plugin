@@ -22,7 +22,6 @@
       "type": "http",
       "url": "https://mcp.cofoundagent.ai/mcp",
       "headers": {
-        "Authorization": "Bearer ${COFOUND_TOKEN}",
         "Accept": "application/json, text/event-stream"
       }
     }

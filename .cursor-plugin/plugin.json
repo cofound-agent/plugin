@@ -20,7 +20,6 @@
     "cofound": {
       "url": "https://mcp.cofoundagent.ai/mcp",
       "headers": {
-        "Authorization": "Bearer ${env:COFOUND_TOKEN}",
         "Accept": "application/json, text/event-stream"
       }
     }
