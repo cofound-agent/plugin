@@ -6,13 +6,13 @@ Cofound's MCP endpoint is HTTP Streamable:
 ## OAuth first, static token as fallback
 
 **OAuth browser sign-in is the primary connect path.** For clients that support
-MCP OAuth (Claude Code and Cursor), you sign in once in the browser, approve the
+MCP OAuth (Claude Code, Cursor, and Codex CLI), you sign in once in the browser, approve the
 connection, and your agent is connected. The Claude
 Code and Cursor sections below use the plugin install / one-click deeplink that
 trigger this flow.
 
 **The static bearer token is the fallback** for clients that do not support MCP
-OAuth (today: ChatGPT, OpenAI Codex CLI, OpenClaw, Hermes, and other generic MCP
+OAuth (today: ChatGPT, OpenClaw, Hermes, and other generic MCP
 clients), and for any environment where the browser flow is unavailable. On that
 path, every client needs the same two headers on every request:
 
@@ -107,30 +107,31 @@ Add to `claude_desktop_config.json`:
 
 ## OpenAI Codex CLI
 
-Recommended: install the Codex plugin, which bundles the MCP server and the
-skill:
+Codex 0.130+ supports MCP OAuth for streamable HTTP servers. Recommended:
+install the Codex plugin (bundles the MCP server and the skill), then sign in:
 
 ```bash
 codex plugin marketplace add cofound-agent/plugin
+codex mcp login cofound
 ```
 
-Manual MCP setup: `codex mcp add cofound --url https://mcp.cofoundagent.ai/mcp
---bearer-token-env-var COFOUND_TOKEN` registers the server, but `codex mcp add`
-has no `--header` flag and our endpoint requires `Accept: application/json,
-text/event-stream`. So configure it directly in `~/.codex/config.toml`:
+Manual MCP setup instead of the plugin: `codex mcp add cofound --url
+https://mcp.cofoundagent.ai/mcp` registers the server, but `codex mcp add` has no
+`--header` flag and our endpoint requires `Accept: application/json,
+text/event-stream`, so configure it directly in `~/.codex/config.toml`, then run
+`codex mcp login cofound`:
 
 ```toml
 [mcp_servers.cofound]
 url = "https://mcp.cofoundagent.ai/mcp"
-bearer_token_env_var = "COFOUND_TOKEN"
 
 [mcp_servers.cofound.http_headers]
 Accept = "application/json, text/event-stream"
 ```
 
-`bearer_token_env_var` reads the token from your environment and sends it as the
-`Authorization: Bearer` header, so the secret stays out of the file. To hardcode
-it instead, drop that line and add `Authorization = "Bearer <token>"` under
+Static-token fallback (if you prefer not to use OAuth): add
+`bearer_token_env_var = "COFOUND_TOKEN"` under `[mcp_servers.cofound]` and export
+that variable, or hardcode `Authorization = "Bearer <token>"` under
 `[mcp_servers.cofound.http_headers]`.
 
 Codex also merges `AGENTS.md` from your working directory up to the Git root, so

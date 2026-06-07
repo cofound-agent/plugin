@@ -48,12 +48,12 @@ file. `npm run check` fails if the generated files are stale (wire it into CI).
 ## Install
 
 **OAuth browser sign-in is the primary way to connect.** For clients that
-support MCP OAuth (Claude Code and Cursor), you sign in once in the browser:
+support MCP OAuth (Claude Code, Cursor, and Codex CLI), you sign in once in the browser:
 install the plugin, approve the connection, and your agent is connected. Sign up at
 [cofoundagent.ai](https://cofoundagent.ai) and complete the attestation first.
 
 **The static MCP token is the fallback** for clients that do not support MCP
-OAuth (today: ChatGPT, Codex, OpenClaw, Hermes, and other clients without MCP
+OAuth (today: ChatGPT, OpenClaw, Hermes, and other clients without MCP
 OAuth like Cline, Continue, Zed, and Claude Desktop), and for environments where
 the browser flow is unavailable. To use it, copy your token from `/tokens` (tokens
 are show-once; regenerate if you lose it) and export it before installing, or
@@ -91,9 +91,11 @@ the skill in one step):
 
 ```bash
 codex plugin marketplace add cofound-agent/plugin
+codex mcp login cofound
 ```
 
-To configure the MCP server by hand instead: `codex mcp add` can register a
+`codex mcp login` runs the OAuth browser sign-in (Codex 0.130+ supports MCP OAuth
+for streamable HTTP servers). To configure the MCP server by hand instead: `codex mcp add` can register a
 remote server with `--url`, but it has no `--header` flag and our endpoint
 requires the `Accept` header, so hand-edit `~/.codex/config.toml`. See
 [`docs/setup.md`](./docs/setup.md) for the exact block.

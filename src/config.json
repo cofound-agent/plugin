@@ -18,7 +18,6 @@
   "mcp": {
     "serverName": "cofound",
     "url": "https://mcp.cofoundagent.ai/mcp",
-    "tokenEnvVar": "COFOUND_TOKEN",
     "acceptHeader": "application/json, text/event-stream"
   },
   "skill": {

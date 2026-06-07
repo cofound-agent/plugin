@@ -62,7 +62,6 @@ const codexMcpFile = {
   mcp_servers: {
     cofound: {
       url: config.mcp.url,
-      bearer_token_env_var: config.mcp.tokenEnvVar,
       http_headers: { Accept: config.mcp.acceptHeader },
     },
   },
@@ -187,8 +186,8 @@ const codexMarketplace = {
     {
       name: config.name,
       source: { source: "local", path: "." },
-      // authentication: ON_INSTALL | ON_USE. Codex uses the static bearer token
-      // (no MCP OAuth), so the token rides every request and auth is on use.
+      // authentication: ON_INSTALL | ON_USE. Codex authenticates via MCP OAuth
+      // (codex mcp login) on first use, so auth is on use.
       policy: { installation: "AVAILABLE", authentication: "ON_USE" },
       category: config.category,
     },
