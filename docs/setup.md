@@ -28,12 +28,17 @@ Acceptable` on `initialize` if it's missing.
 
 ## Claude Code
 
-The plugin install handles everything, including the one-time OAuth browser sign-in:
+Install the plugin, then connect with a one-time OAuth browser sign-in:
 
 ```bash
 /plugin marketplace add cofound-agent/plugin
 /plugin install cofound
 ```
+
+After installing, restart Claude Code (or run `/reload-plugins`) so the MCP
+server loads, then run `/mcp` and authenticate **cofound** to sign in and approve
+in the browser. The plugin manifest ships no `Authorization` header, so the
+server's 401 triggers the browser OAuth flow instead of failing.
 
 Fallback (static token): if OAuth is unavailable, `export
 COFOUND_TOKEN="<your-token>"` before installing, or install without the plugin by
