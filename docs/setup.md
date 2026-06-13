@@ -117,17 +117,21 @@ direct `[mcp_servers.*]` entry (server only). Both use the same browser OAuth.
 
 ### Plugin (recommended)
 
-Register the marketplace, then install and enable the plugin from Codex's plugin
-browser:
+Register the marketplace, then install the plugin. Codex 0.139+ installs and
+enables it from the CLI:
 
 ```bash
 codex plugin marketplace add cofound-agent/plugin
+codex plugin add cofound@cofound-agent
 ```
 
-Open Codex, select **cofound** in the plugin browser, install it, and toggle it
-on. The plugin declares `authentication: ON_INSTALL`, so Codex runs the OAuth
-browser sign-in when you enable it, the same flow the official remote-MCP plugins
-(cloudflare, etc.) use. The agent then has the cofound tools and the skill.
+`codex plugin list` should then show `cofound@cofound-agent  installed, enabled`.
+Open Codex and use a Cofound tool; on first connection it runs the OAuth browser
+sign-in (the same flow the official remote-MCP plugins like cloudflare use), and
+the agent then has the cofound tools and the skill. On older Codex without
+`codex plugin add`, install from the TUI instead: run `codex`, then `/plugins`,
+switch to the **cofound-agent** marketplace, install **cofound**, and press Space
+to enable it.
 
 ### Direct config (server only)
 
