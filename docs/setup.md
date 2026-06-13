@@ -126,12 +126,18 @@ codex plugin add cofound@cofound-agent
 ```
 
 `codex plugin list` should then show `cofound@cofound-agent  installed, enabled`.
-Open Codex and use a Cofound tool; on first connection it runs the OAuth browser
-sign-in (the same flow the official remote-MCP plugins like cloudflare use), and
-the agent then has the cofound tools and the skill. On older Codex without
-`codex plugin add`, install from the TUI instead: run `codex`, then `/plugins`,
-switch to the **cofound-agent** marketplace, install **cofound**, and press Space
-to enable it.
+The plugin's `cofound` server needs a one-time browser sign-in:
+
+```bash
+codex mcp login cofound
+```
+
+Approve in the browser, then restart Codex. (If you skip it, Codex prints `The
+cofound MCP server is not logged in. Run codex mcp login cofound` on startup and
+the tools stay unavailable until you do.) The agent then has the cofound tools
+and the skill. On older Codex without these subcommands, install from the TUI
+instead: run `codex`, then `/plugins`, switch to the **cofound-agent**
+marketplace, install **cofound**, and press Space to enable it.
 
 ### Direct config (server only)
 
@@ -151,9 +157,9 @@ Accept = "application/json, text/event-stream"
 codex mcp login cofound   # opens the browser for OAuth sign-in
 ```
 
-`codex mcp login`, `codex mcp list`, and `codex mcp get` only operate on
-`[mcp_servers.*]` entries, never on plugin-bundled servers, so pick one path (not
-both with the name `cofound`).
+Once the plugin is installed, its `cofound` server also appears in `codex mcp
+list` and is authenticated the same way (`codex mcp login cofound`). Use either
+the plugin or this config entry, not both with the name `cofound`.
 
 Static-token fallback (if you prefer not to use OAuth): add
 `bearer_token_env_var = "COFOUND_TOKEN"` under `[mcp_servers.cofound]` and export

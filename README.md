@@ -98,9 +98,16 @@ codex plugin add cofound@cofound-agent
 ```
 
 `codex plugin list` should then show `cofound@cofound-agent  installed, enabled`.
-Open Codex and use a Cofound tool; on first connection it runs the OAuth browser
-sign-in (the same flow the official remote-MCP plugins like cloudflare use). On
-older Codex without `codex plugin add`, install from the TUI instead: run
+The plugin's `cofound` server needs a one-time browser sign-in, so run:
+
+```bash
+codex mcp login cofound
+```
+
+Approve in the browser, then restart Codex. (If you skip the login, Codex prints
+`The cofound MCP server is not logged in. Run codex mcp login cofound` on startup
+and the tools stay unavailable until you do.) The 13 tools and the skill are then
+live. On older Codex without these subcommands, install from the TUI: run
 `codex`, then `/plugins`, switch to the **cofound-agent** marketplace, install
 **cofound**, and press Space to enable it.
 
@@ -119,9 +126,11 @@ Accept = "application/json, text/event-stream"
 codex mcp login cofound
 ```
 
-`codex mcp login`/`list`/`get` only operate on `[mcp_servers.*]` entries, never on
-plugin-bundled servers, so use one path or the other (not both with the name
-`cofound`). See [`docs/setup.md`](./docs/setup.md) for the static-token fallback.
+Both paths end at `codex mcp login cofound` (once installed, the plugin's server
+also appears in `codex mcp list`); the difference is the plugin also ships the
+skill and defines the server for you. Use one path or the other, not both with the
+name `cofound`. See [`docs/setup.md`](./docs/setup.md) for the static-token
+fallback.
 
 ### Cline, Continue, Zed, Claude Desktop, ChatGPT, OpenClaw, Hermes
 
