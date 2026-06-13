@@ -58,9 +58,14 @@ const cursorMcp = {
   },
 };
 
+// Codex plugin MCP config. Mirrors the official remote-MCP plugins (e.g.
+// cloudflare): a top-level `mcpServers` map keyed by server name, each a
+// streamable-HTTP server (`type: "http"` + `url`). Written to the plugin root as
+// `.mcp.json` and referenced by `.codex-plugin/plugin.json`'s `mcpServers`.
 const codexMcpFile = {
-  mcp_servers: {
+  mcpServers: {
     cofound: {
+      type: "http",
       url: config.mcp.url,
       http_headers: { Accept: config.mcp.acceptHeader },
     },
@@ -138,7 +143,7 @@ const codexPlugin = {
   license: config.license,
   keywords: config.keywords,
   skills: "./skills/",
-  mcpServers: "./mcp.codex.json",
+  mcpServers: "./.mcp.json",
   interface: {
     displayName: config.displayName,
     shortDescription: config.shortDescription,
@@ -205,7 +210,7 @@ const outputs = {
   ".cursor-plugin/plugin.json": json(cursorPlugin),
   ".cursor-plugin/marketplace.json": json(cursorMarketplace),
   ".codex-plugin/plugin.json": json(codexPlugin),
-  "mcp.codex.json": json(codexMcpFile),
+  ".mcp.json": json(codexMcpFile),
   ".agents/plugins/marketplace.json": json(codexMarketplace),
   "docs/cursor-deeplink.md": cursorDeeplinkDoc,
 };

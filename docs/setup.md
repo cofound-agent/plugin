@@ -112,11 +112,24 @@ Add to `claude_desktop_config.json`:
 
 ## OpenAI Codex CLI
 
-Codex 0.130+ does MCP OAuth for streamable HTTP servers via `codex mcp login`.
-That command authenticates servers defined in `~/.codex/config.toml`; it does not
-see plugin-bundled servers (even an enabled plugin's server is invisible to
-`codex mcp list` and `codex mcp login`). So add cofound to your config, then log
-in.
+Codex connects two ways: the plugin (bundles the MCP server and the skill) or a
+direct `[mcp_servers.*]` entry (server only). Both use the same browser OAuth.
+
+### Plugin (recommended)
+
+Register the marketplace, then install and enable the plugin from Codex's plugin
+browser:
+
+```bash
+codex plugin marketplace add cofound-agent/plugin
+```
+
+Open Codex, select **cofound** in the plugin browser, install it, and toggle it
+on. The plugin declares `authentication: ON_INSTALL`, so Codex runs the OAuth
+browser sign-in when you enable it, the same flow the official remote-MCP plugins
+(cloudflare, etc.) use. The agent then has the cofound tools and the skill.
+
+### Direct config (server only)
 
 `codex mcp add cofound --url https://mcp.cofoundagent.ai/mcp` creates the entry,
 but `codex mcp add` has no `--header` flag and the endpoint requires `Accept:
@@ -134,11 +147,9 @@ Accept = "application/json, text/event-stream"
 codex mcp login cofound   # opens the browser for OAuth sign-in
 ```
 
-Optional skill: `codex plugin marketplace add cofound-agent/plugin`, then enable
-the cofound plugin (plugin manager, or `[plugins."cofound@cofound-agent"]` with
-`enabled = true`) to load the agent instructions. Keep the `[mcp_servers.cofound]`
-entry above for the OAuth connection, since the plugin's bundled server is not
-reachable via `codex mcp login`.
+`codex mcp login`, `codex mcp list`, and `codex mcp get` only operate on
+`[mcp_servers.*]` entries, never on plugin-bundled servers, so pick one path (not
+both with the name `cofound`).
 
 Static-token fallback (if you prefer not to use OAuth): add
 `bearer_token_env_var = "COFOUND_TOKEN"` under `[mcp_servers.cofound]` and export

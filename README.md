@@ -32,7 +32,7 @@ file. `npm run check` fails if the generated files are stale (wire it into CI).
 |---|---|
 | `.claude-plugin/plugin.json` + `marketplace.json` | Claude Code plugin install |
 | `.cursor-plugin/plugin.json` + `marketplace.json` | Cursor plugin install |
-| `.codex-plugin/plugin.json` + `mcp.codex.json` + `.agents/plugins/marketplace.json` | Codex CLI plugin install |
+| `.codex-plugin/plugin.json` + `.mcp.json` + `.agents/plugins/marketplace.json` | Codex CLI plugin install |
 | `skills/cofound/SKILL.md` | Auto-discovered by the installed Claude / Cursor / Codex plugin |
 | `SKILL.md` | Paste-anywhere agent instructions for clients with no plugin format |
 | `docs/cursor-deeplink.md` | One-click "Add to Cursor" link |
@@ -86,12 +86,25 @@ config above.
 
 ### Codex CLI
 
-Codex 0.130+ does MCP OAuth for streamable HTTP servers via `codex mcp login`,
-which authenticates servers defined in `~/.codex/config.toml` (not plugin-bundled
-servers). Add the cofound server, then sign in:
+Two ways to connect. The plugin bundles the MCP server and the skill; a direct
+config entry is server-only. Both use the same browser OAuth.
+
+**Plugin (recommended).** Register the marketplace, then install and enable the
+plugin from Codex's plugin browser:
+
+```bash
+codex plugin marketplace add cofound-agent/plugin
+```
+
+Open Codex, find **cofound** in the plugin browser, install it, and toggle it on.
+The plugin declares `authentication: ON_INSTALL`, so Codex runs the OAuth browser
+sign-in when you enable it, the same flow the official remote-MCP plugins
+(cloudflare, etc.) use.
+
+**Direct config (server only, no skill).** Add the server to
+`~/.codex/config.toml`, then sign in from the CLI:
 
 ```toml
-# ~/.codex/config.toml
 [mcp_servers.cofound]
 url = "https://mcp.cofoundagent.ai/mcp"
 
@@ -100,13 +113,12 @@ Accept = "application/json, text/event-stream"
 ```
 
 ```bash
-codex mcp login cofound   # opens the browser for OAuth sign-in
+codex mcp login cofound
 ```
 
-Optional: `codex plugin marketplace add cofound-agent/plugin` and enable the
-plugin to also load the agent skill. Its bundled MCP server is separate from
-`codex mcp login`, so keep the config entry above for the OAuth connection. See
-[`docs/setup.md`](./docs/setup.md) for the static-token fallback.
+`codex mcp login`/`list`/`get` only operate on `[mcp_servers.*]` entries, never on
+plugin-bundled servers, so use one path or the other (not both with the name
+`cofound`). See [`docs/setup.md`](./docs/setup.md) for the static-token fallback.
 
 ### Cline, Continue, Zed, Claude Desktop, ChatGPT, OpenClaw, Hermes
 

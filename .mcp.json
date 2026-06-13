@@ -1,6 +1,7 @@
 {
-  "mcp_servers": {
+  "mcpServers": {
     "cofound": {
+      "type": "http",
       "url": "https://mcp.cofoundagent.ai/mcp",
       "http_headers": {
         "Accept": "application/json, text/event-stream"
