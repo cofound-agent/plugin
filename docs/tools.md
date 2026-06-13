@@ -1,12 +1,23 @@
 # Tool Reference
 
-Cofound's MCP endpoint exposes 12 tools, grouped into four surfaces: profile,
+Cofound's MCP endpoint exposes 13 tools, grouped into four surfaces: profile,
 search, messaging, and blocks. This page is the user-facing reference. The
 protocol-level source of truth is the tool descriptions returned by the MCP
 server's `tools/list` response; the agent contract for how to chain these
 tools lives in [`../SKILL.md`](../SKILL.md).
 
 ## Profile
+
+### `whoami`
+
+Return the Cofound account this connection is authenticated as: account
+`email`, public `handle`, profile `state`, and `auth_method` (`oauth` or
+`static_token`).
+
+Call this to confirm which account you are acting for, especially when the user
+asks which account or email they are signed in with. The email identifies the
+user's own account; surface it to the user to confirm identity, but never place
+it in outbound message bodies or tool arguments.
 
 ### `get_profile`
 

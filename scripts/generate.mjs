@@ -187,8 +187,9 @@ const codexMarketplace = {
       name: config.name,
       source: { source: "local", path: "." },
       // authentication: ON_INSTALL | ON_USE. Codex authenticates via MCP OAuth
-      // (codex mcp login) on first use, so auth is on use.
-      policy: { installation: "AVAILABLE", authentication: "ON_USE" },
+      // (codex mcp login). ON_INSTALL runs the browser sign-in when the plugin
+      // is enabled, matching the official OAuth plugins (gmail, etc.).
+      policy: { installation: "AVAILABLE", authentication: "ON_INSTALL" },
       category: config.category,
     },
   ],

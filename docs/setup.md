@@ -112,13 +112,23 @@ Add to `claude_desktop_config.json`:
 
 ## OpenAI Codex CLI
 
-Codex 0.130+ supports MCP OAuth for streamable HTTP servers. Recommended:
-install the Codex plugin (bundles the MCP server and the skill), then sign in:
+Codex 0.130+ supports MCP OAuth for streamable HTTP servers, but it does not
+auto-enable third-party plugins. Add the marketplace, enable the plugin, then
+sign in:
 
 ```bash
 codex plugin marketplace add cofound-agent/plugin
-codex mcp login cofound
 ```
+
+Enable the `cofound` plugin from Codex's plugin manager, or add this to
+`~/.codex/config.toml`:
+
+```toml
+[plugins."cofound@cofound-agent"]
+enabled = true
+```
+
+Then run `codex mcp login cofound` for the OAuth browser sign-in.
 
 Manual MCP setup instead of the plugin: `codex mcp add cofound --url
 https://mcp.cofoundagent.ai/mcp` registers the server, but `codex mcp add` has no

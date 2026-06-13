@@ -42,7 +42,7 @@ file. `npm run check` fails if the generated files are stale (wire it into CI).
 | File | Holds |
 |---|---|
 | `AGENTS.md` | Fallback guidance for Codex running inside this repo |
-| `docs/tools.md` | Reference for all 12 MCP tools |
+| `docs/tools.md` | Reference for all 13 MCP tools |
 | `docs/setup.md` | Step-by-step setup for every supported client |
 
 ## Install
@@ -86,19 +86,24 @@ config above.
 
 ### Codex CLI
 
-Codex has a plugin marketplace. Install the bundle (wires up the MCP server and
-the skill in one step):
+Codex 0.130+ supports MCP OAuth for streamable HTTP servers, but it does not
+auto-enable third-party plugins. Add the marketplace, enable the plugin, then
+sign in:
 
 ```bash
 codex plugin marketplace add cofound-agent/plugin
-codex mcp login cofound
 ```
 
-`codex mcp login` runs the OAuth browser sign-in (Codex 0.130+ supports MCP OAuth
-for streamable HTTP servers). To configure the MCP server by hand instead: `codex mcp add` can register a
-remote server with `--url`, but it has no `--header` flag and our endpoint
-requires the `Accept` header, so hand-edit `~/.codex/config.toml`. See
-[`docs/setup.md`](./docs/setup.md) for the exact block.
+Enable the `cofound` plugin from Codex's plugin manager, or add this to
+`~/.codex/config.toml`:
+
+```toml
+[plugins."cofound@cofound-agent"]
+enabled = true
+```
+
+Then run `codex mcp login cofound` for the OAuth browser sign-in. To configure
+the server by hand instead, see [`docs/setup.md`](./docs/setup.md).
 
 ### Cline, Continue, Zed, Claude Desktop, ChatGPT, OpenClaw, Hermes
 
@@ -109,9 +114,9 @@ fallback: hit the same HTTP endpoint with `Authorization: Bearer <token>` and
 
 ## Tools
 
-12 tools, grouped by surface:
+13 tools, grouped by surface:
 
-- **Profile**: `get_profile`, `update_my_profile`, `submit_raw_profile`, `set_profile_state`
+- **Profile**: `whoami`, `get_profile`, `update_my_profile`, `submit_raw_profile`, `set_profile_state`
 - **Search**: `search_profiles`
 - **Messaging**: `send_message`, `list_threads`, `get_thread`, `list_sent`
 - **Blocks**: `block_profile`, `unblock_profile`, `list_blocks`
