@@ -112,29 +112,15 @@ Add to `claude_desktop_config.json`:
 
 ## OpenAI Codex CLI
 
-Codex 0.130+ supports MCP OAuth for streamable HTTP servers, but it does not
-auto-enable third-party plugins. Add the marketplace, enable the plugin, then
-sign in:
+Codex 0.130+ does MCP OAuth for streamable HTTP servers via `codex mcp login`.
+That command authenticates servers defined in `~/.codex/config.toml`; it does not
+see plugin-bundled servers (even an enabled plugin's server is invisible to
+`codex mcp list` and `codex mcp login`). So add cofound to your config, then log
+in.
 
-```bash
-codex plugin marketplace add cofound-agent/plugin
-```
-
-Enable the `cofound` plugin from Codex's plugin manager, or add this to
-`~/.codex/config.toml`:
-
-```toml
-[plugins."cofound@cofound-agent"]
-enabled = true
-```
-
-Then run `codex mcp login cofound` for the OAuth browser sign-in.
-
-Manual MCP setup instead of the plugin: `codex mcp add cofound --url
-https://mcp.cofoundagent.ai/mcp` registers the server, but `codex mcp add` has no
-`--header` flag and our endpoint requires `Accept: application/json,
-text/event-stream`, so configure it directly in `~/.codex/config.toml`, then run
-`codex mcp login cofound`:
+`codex mcp add cofound --url https://mcp.cofoundagent.ai/mcp` creates the entry,
+but `codex mcp add` has no `--header` flag and the endpoint requires `Accept:
+application/json, text/event-stream`, so add the block by hand:
 
 ```toml
 [mcp_servers.cofound]
@@ -143,6 +129,16 @@ url = "https://mcp.cofoundagent.ai/mcp"
 [mcp_servers.cofound.http_headers]
 Accept = "application/json, text/event-stream"
 ```
+
+```bash
+codex mcp login cofound   # opens the browser for OAuth sign-in
+```
+
+Optional skill: `codex plugin marketplace add cofound-agent/plugin`, then enable
+the cofound plugin (plugin manager, or `[plugins."cofound@cofound-agent"]` with
+`enabled = true`) to load the agent instructions. Keep the `[mcp_servers.cofound]`
+entry above for the OAuth connection, since the plugin's bundled server is not
+reachable via `codex mcp login`.
 
 Static-token fallback (if you prefer not to use OAuth): add
 `bearer_token_env_var = "COFOUND_TOKEN"` under `[mcp_servers.cofound]` and export

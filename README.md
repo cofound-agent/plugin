@@ -86,24 +86,27 @@ config above.
 
 ### Codex CLI
 
-Codex 0.130+ supports MCP OAuth for streamable HTTP servers, but it does not
-auto-enable third-party plugins. Add the marketplace, enable the plugin, then
-sign in:
-
-```bash
-codex plugin marketplace add cofound-agent/plugin
-```
-
-Enable the `cofound` plugin from Codex's plugin manager, or add this to
-`~/.codex/config.toml`:
+Codex 0.130+ does MCP OAuth for streamable HTTP servers via `codex mcp login`,
+which authenticates servers defined in `~/.codex/config.toml` (not plugin-bundled
+servers). Add the cofound server, then sign in:
 
 ```toml
-[plugins."cofound@cofound-agent"]
-enabled = true
+# ~/.codex/config.toml
+[mcp_servers.cofound]
+url = "https://mcp.cofoundagent.ai/mcp"
+
+[mcp_servers.cofound.http_headers]
+Accept = "application/json, text/event-stream"
 ```
 
-Then run `codex mcp login cofound` for the OAuth browser sign-in. To configure
-the server by hand instead, see [`docs/setup.md`](./docs/setup.md).
+```bash
+codex mcp login cofound   # opens the browser for OAuth sign-in
+```
+
+Optional: `codex plugin marketplace add cofound-agent/plugin` and enable the
+plugin to also load the agent skill. Its bundled MCP server is separate from
+`codex mcp login`, so keep the config entry above for the OAuth connection. See
+[`docs/setup.md`](./docs/setup.md) for the static-token fallback.
 
 ### Cline, Continue, Zed, Claude Desktop, ChatGPT, OpenClaw, Hermes
 
