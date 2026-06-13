@@ -182,15 +182,17 @@ ${cursorDeeplink}
 `;
 
 // Codex marketplace catalog. Schema mirrors openai/plugins'
-// .agents/plugins/marketplace.json. The plugin lives at the repo root (the same
-// root Claude and Cursor use), so the local source path is ".".
+// .agents/plugins/marketplace.json, which requires each plugin in its own
+// `plugins/<name>/` subdir; a plugin at the marketplace root is NOT discovered
+// (codex plugin list/add can't find it). So the Codex plugin is emitted under
+// plugins/<name>/, even though Claude and Cursor read manifests from the repo root.
 const codexMarketplace = {
   name: config.marketplace.name,
   interface: { displayName: config.marketplace.owner.name },
   plugins: [
     {
       name: config.name,
-      source: { source: "local", path: "." },
+      source: { source: "local", path: `./plugins/${config.name}` },
       // authentication: ON_INSTALL | ON_USE. Codex authenticates via MCP OAuth
       // (codex mcp login). ON_INSTALL runs the browser sign-in when the plugin
       // is enabled, matching the official OAuth plugins (gmail, etc.).
@@ -209,9 +211,10 @@ const outputs = {
   ".claude-plugin/marketplace.json": json(claudeMarketplace),
   ".cursor-plugin/plugin.json": json(cursorPlugin),
   ".cursor-plugin/marketplace.json": json(cursorMarketplace),
-  ".codex-plugin/plugin.json": json(codexPlugin),
-  ".mcp.json": json(codexMcpFile),
   ".agents/plugins/marketplace.json": json(codexMarketplace),
+  "plugins/cofound/.codex-plugin/plugin.json": json(codexPlugin),
+  "plugins/cofound/.mcp.json": json(codexMcpFile),
+  "plugins/cofound/skills/cofound/SKILL.md": pluginSkill,
   "docs/cursor-deeplink.md": cursorDeeplinkDoc,
 };
 

@@ -32,7 +32,7 @@ file. `npm run check` fails if the generated files are stale (wire it into CI).
 |---|---|
 | `.claude-plugin/plugin.json` + `marketplace.json` | Claude Code plugin install |
 | `.cursor-plugin/plugin.json` + `marketplace.json` | Cursor plugin install |
-| `.codex-plugin/plugin.json` + `.mcp.json` + `.agents/plugins/marketplace.json` | Codex CLI plugin install |
+| `.agents/plugins/marketplace.json` + `plugins/cofound/` (`.codex-plugin/plugin.json`, `.mcp.json`, `skills/`) | Codex CLI plugin install |
 | `skills/cofound/SKILL.md` | Auto-discovered by the installed Claude / Cursor / Codex plugin |
 | `SKILL.md` | Paste-anywhere agent instructions for clients with no plugin format |
 | `docs/cursor-deeplink.md` | One-click "Add to Cursor" link |
