@@ -175,9 +175,9 @@ Requires a paid plan (Plus or Pro; Business/Enterprise/Edu where an admin enable
 custom connectors). ChatGPT custom connectors authenticate with **OAuth**; the UI
 has no field for a static token or an Accept header.
 
-1. **Turn on Developer Mode:** Settings → Connectors (newer ChatGPT labels this
-   "Apps & Connectors") → Advanced settings → enable **Developer mode (beta)**.
-2. **Add the connector:** click **Create**, then enter:
+1. **Turn on Developer Mode:** Settings → **Apps** → Advanced settings → enable
+   **Developer mode (beta)**.
+2. **Add the connector:** in Apps, click **Create**, then enter:
    - Name: `Cofound`
    - MCP server URL: `https://mcp.cofoundagent.ai/mcp`
    - Authentication: `OAuth`
