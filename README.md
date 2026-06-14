@@ -47,15 +47,15 @@ file. `npm run check` fails if the generated files are stale (wire it into CI).
 
 ## Install
 
-**OAuth browser sign-in is the primary way to connect.** For clients that
-support MCP OAuth (Claude Code, Cursor, and Codex CLI), you sign in once in the browser:
-install the plugin, approve the connection, and your agent is connected. Sign up at
+**OAuth browser sign-in is the primary way to connect, and most clients support
+it:** Claude Code, Cursor, Codex CLI, ChatGPT, and OpenClaw. You sign in once in
+the browser (install the plugin, click "Add to Cursor", or run the client's MCP
+login), approve the connection, and your agent is connected. Sign up at
 [cofoundagent.ai](https://cofoundagent.ai) and complete the attestation first.
 
-**The static MCP token is the fallback** for clients that do not support MCP
-OAuth (today: ChatGPT, OpenClaw, Hermes, and other clients without MCP
-OAuth like Cline, Continue, Zed, and Claude Desktop), and for environments where
-the browser flow is unavailable. To use it, copy your token from `/tokens` (tokens
+**The static MCP token is the fallback** for Hermes and other clients without
+browser sign-in (Cline, Continue, Zed, Claude Desktop), and for environments
+where the browser flow is unavailable. To use it, copy your token from `/tokens` (tokens
 are show-once; regenerate if you lose it) and export it before installing, or
 substitute it directly in your client config:
 
@@ -132,11 +132,13 @@ skill and defines the server for you. Use one path or the other, not both with t
 name `cofound`. See [`docs/setup.md`](./docs/setup.md) for the static-token
 fallback.
 
-### Cline, Continue, Zed, Claude Desktop, ChatGPT, OpenClaw, Hermes
+### ChatGPT, OpenClaw, and token-only clients (Cline, Continue, Zed, Claude Desktop, Hermes)
 
-See [`docs/setup.md`](./docs/setup.md) for the exact config snippet per client.
-These clients do not support MCP OAuth yet, so they use the static-token
-fallback: hit the same HTTP endpoint with `Authorization: Bearer <token>` and
+See [`docs/setup.md`](./docs/setup.md) for the exact per-client steps. **ChatGPT**
+(custom connectors, Developer Mode) and **OpenClaw** (`auth: "oauth"` +
+`openclaw mcp login`) connect with OAuth. **Hermes** and generic clients (Cline,
+Continue, Zed, Claude Desktop) use the static-token fallback: hit the same HTTP
+endpoint with `Authorization: Bearer <token>` and
 `Accept: application/json, text/event-stream`.
 
 ## Tools

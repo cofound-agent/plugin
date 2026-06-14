@@ -5,15 +5,14 @@ Cofound's MCP endpoint is HTTP Streamable:
 
 ## OAuth first, static token as fallback
 
-**OAuth browser sign-in is the primary connect path.** For clients that support
-MCP OAuth (Claude Code, Cursor, and Codex CLI), you sign in once in the browser, approve the
-connection, and your agent is connected. The Claude
-Code and Cursor sections below use the plugin install / one-click deeplink that
-trigger this flow.
+**OAuth browser sign-in is the primary connect path, and most clients support
+it:** Claude Code, Cursor, Codex CLI, ChatGPT, and OpenClaw. You sign in once in
+the browser, approve the connection, and your agent is connected (each client's
+section below shows its sign-in step).
 
-**The static bearer token is the fallback** for clients that do not support MCP
-OAuth (today: ChatGPT, OpenClaw, Hermes, and other generic MCP
-clients), and for any environment where the browser flow is unavailable. On that
+**The static bearer token is the fallback** for Hermes and other generic clients
+without browser sign-in, and for any environment where the browser flow is
+unavailable. On that
 path, every client needs the same two headers on every request:
 
 - `Authorization: Bearer <token>`
@@ -186,7 +185,33 @@ an Accept header.
 
 ## OpenClaw
 
-`~/.openclaw/openclaw.json` (note the `mcp.servers` nesting, not `mcpServers`; `transport` is required for remote servers):
+OpenClaw supports OAuth. In `~/.openclaw/openclaw.json` (note the `mcp.servers`
+nesting, not `mcpServers`; `transport` is required for remote servers), set
+`auth: "oauth"`:
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "cofound": {
+        "url": "https://mcp.cofoundagent.ai/mcp",
+        "transport": "streamable-http",
+        "auth": "oauth"
+      }
+    }
+  }
+}
+```
+
+Then run the browser sign-in (static `Authorization` headers are ignored while
+`auth: "oauth"` is set):
+
+```bash
+openclaw mcp login cofound                # prints an authorization URL; approve it
+openclaw mcp login cofound --code <code>  # paste the returned code to finish
+```
+
+Static-token fallback: omit `auth`, and add a `headers` block instead:
 
 ```json
 {
