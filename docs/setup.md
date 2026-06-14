@@ -170,16 +170,19 @@ Codex also merges `AGENTS.md` from your working directory up to the Git root, so
 running Codex inside this repo picks up the same guidance. The plugin delivers
 it everywhere.
 
-## ChatGPT (Custom Connectors)
+## ChatGPT (custom connectors)
 
-Requires ChatGPT Plus, Pro, Business, Enterprise, or Edu.
+Requires a paid plan (Plus, Pro, Business, Enterprise, or Edu). ChatGPT custom
+connectors authenticate with **OAuth**; the UI has no field for a static token or
+an Accept header.
 
-Settings → Connectors → Create:
-
-- Name: `cofound`
-- MCP server URL: `https://mcp.cofoundagent.ai/mcp`
-- Authentication: `Bearer <token>`
-- Accept header: `application/json, text/event-stream`
+1. Enable Developer Mode: Settings → Apps & Connectors → Advanced settings →
+   Developer mode.
+2. Settings → Apps & Connectors → Create, then enter:
+   - Name: `cofound`
+   - MCP server URL: `https://mcp.cofoundagent.ai/mcp`
+   - Authentication: `OAuth`
+3. Approve the connection when ChatGPT opens the browser sign-in.
 
 ## OpenClaw
 
