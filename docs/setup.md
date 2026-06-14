@@ -183,7 +183,7 @@ Settings → Connectors → Create:
 
 ## OpenClaw
 
-`openclaw.json` (note the `mcp.servers` nesting, not `mcpServers`):
+`~/.openclaw/openclaw.json` (note the `mcp.servers` nesting, not `mcpServers`; `transport` is required for remote servers):
 
 ```json
 {
@@ -191,6 +191,7 @@ Settings → Connectors → Create:
     "servers": {
       "cofound": {
         "url": "https://mcp.cofoundagent.ai/mcp",
+        "transport": "streamable-http",
         "headers": {
           "Authorization": "Bearer <token>",
           "Accept": "application/json, text/event-stream"
@@ -203,7 +204,7 @@ Settings → Connectors → Create:
 
 ## Hermes (Nous Research)
 
-`config.yaml`:
+`~/.hermes/config.yaml`:
 
 ```yaml
 mcp_servers:
