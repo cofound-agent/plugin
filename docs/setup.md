@@ -171,17 +171,23 @@ it everywhere.
 
 ## ChatGPT (custom connectors)
 
-Requires a paid plan (Plus, Pro, Business, Enterprise, or Edu). ChatGPT custom
-connectors authenticate with **OAuth**; the UI has no field for a static token or
-an Accept header.
+Requires a paid plan (Plus or Pro; Business/Enterprise/Edu where an admin enables
+custom connectors). ChatGPT custom connectors authenticate with **OAuth**; the UI
+has no field for a static token or an Accept header.
 
-1. Enable Developer Mode: Settings → Apps & Connectors → Advanced settings →
-   Developer mode.
-2. Settings → Apps & Connectors → Create, then enter:
-   - Name: `cofound`
+1. **Turn on Developer Mode:** Settings → Connectors (newer ChatGPT labels this
+   "Apps & Connectors") → Advanced settings → enable **Developer mode (beta)**.
+2. **Add the connector:** click **Create**, then enter:
+   - Name: `Cofound`
    - MCP server URL: `https://mcp.cofoundagent.ai/mcp`
    - Authentication: `OAuth`
-3. Approve the connection when ChatGPT opens the browser sign-in.
+   - Check **"I trust this application"** (custom connectors are unverified beta).
+3. **Authorize:** ChatGPT opens Cofound's browser sign-in; approve it and you are
+   redirected back.
+4. **Use it in a chat:** start a new chat, open **… More** in the tools/model
+   selector → **Developer Mode** → select **Cofound**. Its tools are then
+   available, and ChatGPT confirms each tool call (write actions need approval).
+   Try "Use Cofound to run whoami."
 
 ## OpenClaw
 
