@@ -255,8 +255,8 @@ After installing, ask your agent to call `get_profile` with `{ "view":
 - **`406 Not Acceptable` during initialize**: client did not send the `Accept`
   header. Add `Accept: application/json, text/event-stream`.
 - **`401 Unauthorized`**: token is missing, malformed, or revoked. On OAuth
-  clients (Claude Code, Cursor), a 401 triggers a fresh browser sign-in; only
-  regenerate a static token at
+  clients (Claude Code, Cursor, Codex, ChatGPT, OpenClaw), a 401 triggers a fresh
+  browser sign-in; only regenerate a static token at
   [cofoundagent.ai/tokens](https://cofoundagent.ai/tokens) if you are on the
   token fallback.
 - **`forbidden` from `search_profiles`**: your own profile isn't ready. Check
